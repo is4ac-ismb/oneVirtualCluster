@@ -14,13 +14,13 @@ Reference to OpenNebula folders:
 - Sunstone javascript folder: /usr/lib/one/sunstone/public/js/
 - Sunstone plugins folder: /usr/lib/one/sunstone/public/js/plugins/
 
-==================
+
 ==================
 <b>Plugin installation instructions</b>
 ==================
 
-==================
-Changed files
+
+Changed files.
 Replace the following files with those provided by the plugin:
 - SunstoneServer.rb in the models folder of Sunstone installation;
 - OpenNebulaJSON.rb in the ruby folder of Open Nebula installation;
@@ -28,14 +28,14 @@ Replace the following files with those provided by the plugin:
 - OpenNebula.rb (opennebula.rb for version ≥ 4.0.1) in the ruby folder of Open Nebula installation.
 
 ==================
-New files
+New files.
 Add the following files:
 - vclusters-tab.js in the plugins folder of Sunstone installation;
 - VirtualClusterJSON.rb in the ruby/OpenNebulaJSON folder of Open Nebula installation;
 - virtual_cluster.rb in the ruby/opennebula/ folder of Open Nebula installation.
 
 ==================
-Database changes
+Database changes.
 Manually execute the following queries to one.db:
   - virtual_cluster_pool table creation:
     CREATE TABLE virtual_cluster_pool (oid INTEGER PRIMARY KEY, name VARCHAR(128), body TEXT, uid INTEGER, gid INTEGER, owner_u INTEGER, group_u INTEGER, other_u INTEGER, UNIQUE(name)); 
@@ -45,7 +45,7 @@ Manually execute the following queries to one.db:
     INSERT INTO pool_control VALUES('virtual_cluster_pool', '0');
 
 ==================
-Plugin tab registration
+Plugin tab registration.
 Register the virtual cluster tab in Sunstone. 
 Insert the vclusters-tab row entry in the available_tabs section of the file /etc/one/sunstone-views.yaml.
 Insert the vclusters-tab row entry at the first part of the file /etc/one/sunstone-views/<view_name>.yaml for the views you want the plugin to be enabled, between the files-tab and infra-tab entries as shown below:
