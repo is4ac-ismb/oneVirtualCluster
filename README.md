@@ -14,9 +14,10 @@ Reference to OpenNebula folders:
 - Sunstone javascript folder: /usr/lib/one/sunstone/public/js/
 - Sunstone plugins folder: /usr/lib/one/sunstone/public/js/plugins/
 
-#########################
-Plugin installation instructions
-#########################
+==================
+==================
+<b>Plugin installation instructions</b>
+==================
 
 ==================
 Changed files
