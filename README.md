@@ -32,15 +32,15 @@ Add the following files:
 ==================
 Database changes
 Manually execute the following queries to one.db:
-  1.virtual_cluster_pool table creation:
-  CREATE TABLE virtual_cluster_pool (oid INTEGER PRIMARY KEY, name VARCHAR(128), body TEXT, uid INTEGER, gid INTEGER, owner_u INTEGER, group_u INTEGER, other_u INTEGER, UNIQUE(name)); 
-  2.vcluster_vm_control table creation (to manage vms-vclusters associations):
-  CREATE TABLE vcluster_vm_control (vm_id INTEGER PRIMARY KEY REFERENCES vm_pool(oid) ON DELETE CASCADE, vcluster_id INTEGER REFERENCES virtual_cluster_pool(oid) ON DELETE CASCADE); 
-  3.Row for virtual cluster pool in pool_control the table:
-  INSERT INTO pool_control VALUES('virtual_cluster_pool', '0');
-  Plugin tab registration
+  - virtual_cluster_pool table creation:
+    CREATE TABLE virtual_cluster_pool (oid INTEGER PRIMARY KEY, name VARCHAR(128), body TEXT, uid INTEGER, gid INTEGER, owner_u INTEGER, group_u INTEGER, other_u INTEGER, UNIQUE(name)); 
+  - vcluster_vm_control table creation (to manage vms-vclusters associations):
+   CREATE TABLE vcluster_vm_control (vm_id INTEGER PRIMARY KEY REFERENCES vm_pool(oid) ON DELETE CASCADE, vcluster_id INTEGER REFERENCES virtual_cluster_pool(oid) ON DELETE CASCADE); 
+  - Row for virtual cluster pool in pool_control the table:
+    INSERT INTO pool_control VALUES('virtual_cluster_pool', '0');
 
 ==================
+Plugin tab registration
 Register the virtual cluster tab in Sunstone. 
 Insert the vclusters-tab row entry in the available_tabs section of the file /etc/one/sunstone-views.yaml.
 Insert the vclusters-tab row entry at the first part of the file /etc/one/sunstone-views/<view_name>.yaml for the views you want the plugin to be enabled, between the files-tab and infra-tab entries as shown below:
