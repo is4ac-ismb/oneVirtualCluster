@@ -74,6 +74,6 @@ In the same files, append the following lines  under the vresources-tab and  bef
             Vcluster.delete: true 
             Vcluster.monitor_vm: true 
 
-If you still haven't customized the admin view (admin.yaml file), you can replace it with the one provided inside the plugin folder.sunstone
+If you still haven't customized the admin view (admin.yaml file), you can replace it with the one provided inside the plugin folder.
 
 
