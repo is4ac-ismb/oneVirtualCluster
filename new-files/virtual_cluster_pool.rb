@@ -1,5 +1,8 @@
 # -------------------------------------------------------------------------- #
-# Copyright 2002-2013, OpenNebula Project (OpenNebula.org), C12G Labs        #
+#									     #
+# Created by:								     #
+# Antonio Attanasio - attanasio@ismb.it					     #
+# IS4AC @ ISMB - www.ismb.it						     #
 #                                                                            #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may    #
 # not use this file except in compliance with the License. You may obtain    #
@@ -14,30 +17,43 @@
 # limitations under the License.                                             #
 #--------------------------------------------------------------------------- #
 
-require 'opennebula'
-include OpenNebula
-
-require 'OpenNebulaJSON/GroupJSON'
-require 'OpenNebulaJSON/HostJSON'
-require 'OpenNebulaJSON/ClusterJSON'
-require 'OpenNebulaJSON/ImageJSON'
-require 'OpenNebulaJSON/TemplateJSON'
-require 'OpenNebulaJSON/JSONUtils'
-require 'OpenNebulaJSON/PoolJSON'
-require 'OpenNebulaJSON/UserJSON'
-require 'OpenNebulaJSON/VirtualMachineJSON'
-require 'OpenNebulaJSON/VirtualNetworkJSON'
-require 'OpenNebulaJSON/AclJSON'
-require 'OpenNebulaJSON/DatastoreJSON'
-require 'OpenNebulaJSON/VirtualClusterJSON' #Added by Antonio
+require 'opennebula/document_pool_json'
 
 module OpenNebula
-    class Error
-        def to_json
-            message = { :message => @message }
-            error_hash = { :error => message }
+    class VirtualClusterPool < DocumentPoolJSON
 
-            return JSON.pretty_generate error_hash
+        DOCUMENT_TYPE = 2001
+
+        def factory(element_xml)
+		vc_template = OpenNebula::VirtualCluster.new(element_xml, @client)
+		vc_template.load_body
+		vc_template
         end
+
+	def info
+		rc = super()
+		if OpenNebula.is_error?(rc)
+			return rc
+		end
+
+		docpool_hash = self.to_hash
+
+		vcpool_json = JSON.parse('{"VCLUSTER_POOL" : {"VCLUSTER" : [] } }')
+
+		if docpool_hash['DOCUMENT_POOL'] && docpool_hash["DOCUMENT_POOL"]["DOCUMENT"]
+			if !docpool_hash['DOCUMENT_POOL']['DOCUMENT'].instance_of?(Array)
+				    array = [docpool_hash['DOCUMENT_POOL']['DOCUMENT']]
+				    docpool_hash['DOCUMENT_POOL']['DOCUMENT'] = array.compact
+			end
+
+			docpool_hash["DOCUMENT_POOL"]["DOCUMENT"].each { |doc| 
+				vcpool_json["VCLUSTER_POOL"]["VCLUSTER"].push(doc) }
+		end
+
+		return vcpool_json
+		
+	end
+
     end
 end
+
